@@ -1,0 +1,57 @@
+@theme inline {
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  --color-ph-bg: #14171C;
+  --color-ph-surface: #1D2127;
+  --color-ph-border: #2A2F37;
+  --color-ph-amber: #F2A93B;
+  --color-ph-teal: #2FA6A0;
+  --color-ph-text: #EDEAE3;
+  --color-ph-muted: #8B9099;
+  --color-ph-error: #D45B4E;
+  --color-ph-amber-dark: #e09930;
+
+  --color-background: #14171C;
+  --color-foreground: #EDEAE3;
+  --color-card: #1D2127;
+  --color-card-foreground: #EDEAE3;
+  --color-popover: #1D2127;
+  --color-popover-foreground: #EDEAE3;
+  --color-primary: #F2A93B;
+  --color-primary-foreground: #14171C;
+  --color-secondary: #2FA6A0;
+  --color-secondary-foreground: #EDEAE3;
+  --color-muted: #2A2F37;
+  --color-muted-foreground: #8B9099;
+  --color-accent: rgba(242, 169, 59, 0.07);
+  --color-accent-foreground: #EDEAE3;
+  --color-destructive: #D45B4E;
+  --color-destructive-foreground: #EDEAE3;
+  --color-border: #2A2F37;
+  --color-input: #2A2F37;
+  --color-ring: #F2A93B;
+  --radius-xs: calc(0.5rem - 4px);
+  --radius-sm: calc(0.5rem - 2px);
+  --radius-md: 0.5rem;
+  --radius-lg: calc(0.5rem + 4px);
+  --color-sidebar: #1D2127;
+  --color-sidebar-foreground: #8B9099;
+  --color-sidebar-primary: #F2A93B;
+  --color-sidebar-primary-foreground: #14171C;
+  --color-sidebar-accent: rgba(242, 169, 59, 0.07);
+  --color-sidebar-accent-foreground: #EDEAE3;
+  --color-sidebar-border: #2A2F37;
+  --color-sidebar-ring: #F2A93B;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+}

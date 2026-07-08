@@ -1,0 +1,10 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    "docs/08_CURRENT_STATE.md",
+    "docs/05_PROGRESS_LOG.md",
+    "docs/06_ERROR_LOG.md",
+    "docs/09_TASK_TRACKER.md",
+    "docs/04_CODING_CONVENTIONS.md"
+  ]
+}
