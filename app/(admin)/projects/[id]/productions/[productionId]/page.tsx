@@ -2,10 +2,10 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { db } from '@/lib/db/client';
-import { productions, formatPresets, projects } from '@/lib/db/schema';
-import { eq } from 'drizzle-orm';
+import { productions, formatPresets, projects, assets } from '@/lib/db/schema';
+import { eq, inArray } from 'drizzle-orm';
 import { listScenesByProduction } from '@/lib/actions/scene';
-import { GenerateScenesForm, CopyButton } from '@/components/SceneClient';
+import { GenerateScenesForm, CopyButton, VoiceoverButton } from '@/components/SceneClient';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -43,6 +43,18 @@ export default async function ProductionDetailPage({ params }: Props) {
   if (!prod) notFound();
 
   const sceneList = await listScenesByProduction(prodId);
+
+  const narrationAssetIds = sceneList
+    .map((s) => s.narrationAssetId)
+    .filter((id): id is number => id !== null);
+
+  const narrationAssetRows = narrationAssetIds.length > 0
+    ? await db
+        .select({ id: assets.id, cloudinaryUrl: assets.cloudinaryUrl })
+        .from(assets)
+        .where(inArray(assets.id, narrationAssetIds))
+    : [];
+  const narrationAssetMap = new Map(narrationAssetRows.map((a) => [a.id, a.cloudinaryUrl]));
 
   return (
     <div className="flex-1 flex flex-col bg-ph-bg overflow-y-auto h-full">
@@ -106,7 +118,13 @@ export default async function ProductionDetailPage({ params }: Props) {
 
                 {scene.scriptNarration && (
                   <div className="border-t border-ph-border pt-3">
-                    <span className="font-mono text-[9px] text-ph-muted tracking-[0.06em] uppercase">Narration</span>
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="font-mono text-[9px] text-ph-muted tracking-[0.06em] uppercase">Narration</span>
+                      <VoiceoverButton
+                        sceneId={scene.id}
+                        narrationAudioUrl={scene.narrationAssetId ? (narrationAssetMap.get(scene.narrationAssetId) ?? null) : null}
+                      />
+                    </div>
                     <p className="font-sans text-xs text-ph-text mt-1 italic">{scene.scriptNarration}</p>
                   </div>
                 )}

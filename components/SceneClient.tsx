@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { generateScenes } from '@/lib/actions/scene';
-import { Copy, Sparkles, Check } from 'lucide-react';
+import { generateSceneVoiceover } from '@/lib/actions/voiceover';
+import { Copy, Sparkles, Check, Volume2 } from 'lucide-react';
 
 interface Props {
   productionId: number;
@@ -52,6 +53,55 @@ export function GenerateScenesForm({ productionId }: Props) {
       </button>
       {error && <span className="font-mono text-[11px] text-ph-error">{error}</span>}
     </form>
+  );
+}
+
+export function VoiceoverButton({ sceneId, narrationAudioUrl }: { sceneId: number; narrationAudioUrl: string | null }) {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleGenerate = async () => {
+    setError('');
+    setLoading(true);
+    try {
+      await generateSceneVoiceover(sceneId);
+      router.refresh();
+    } catch (err: unknown) {
+      if (err instanceof Error) setError(err.message);
+      else setError('Gagal generate voiceover');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (narrationAudioUrl) {
+    return (
+      <div className="flex items-center gap-2">
+        <audio controls src={narrationAudioUrl} className="h-[28px] w-[180px]" />
+        <button
+          onClick={handleGenerate}
+          disabled={loading}
+          className="flex items-center gap-1 bg-transparent border border-ph-border rounded-[3px] px-[6px] py-[2px] cursor-pointer text-ph-muted hover:text-ph-text hover:border-ph-muted transition-colors font-mono text-[9px] disabled:opacity-70"
+        >
+          <Volume2 size={10} /> {loading ? '...' : 'ULANG'}
+        </button>
+        {error && <span className="font-mono text-[10px] text-ph-error">{error}</span>}
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex items-center gap-2">
+      <button
+        onClick={handleGenerate}
+        disabled={loading}
+        className="flex items-center gap-1.5 px-[10px] py-[4px] bg-ph-amber text-ph-bg font-display text-[11px] font-bold tracking-[0.1em] rounded-[4px] cursor-pointer transition-colors duration-150 hover:bg-ph-amber-dark disabled:opacity-70 outline-offset-2 focus-visible:outline-2 focus-visible:outline-ph-amber"
+      >
+        <Volume2 size={12} /> {loading ? 'GENERATING AUDIO...' : 'GENERATE VOICEOVER'}
+      </button>
+      {error && <span className="font-mono text-[10px] text-ph-error">{error}</span>}
+    </div>
   );
 }
 

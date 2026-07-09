@@ -110,6 +110,7 @@ export const scenes = pgTable('scenes', {
   videoPrompt: text('video_prompt').notNull(),
   scriptNarration: text('script_narration'),
   musicTrackId: integer('music_track_id').references(() => musicTracks.id, { onDelete: 'set null' }),
+  narrationAssetId: integer('narration_asset_id').references(() => assets.id, { onDelete: 'set null' }),
   durationSeconds: integer('duration_seconds').notNull().default(15),
   maxWords: integer('max_words').notNull().default(30),
   speechPace: text('speech_pace').notNull().default('normal'),
@@ -184,6 +185,7 @@ export const scenesRelations = relations(scenes, ({ one }) => ({
   production: one(productions, { fields: [scenes.productionId], references: [productions.id] }),
   chainAsset: one(assets, { fields: [scenes.chainAssetId], references: [assets.id] }),
   musicTrack: one(musicTracks, { fields: [scenes.musicTrackId], references: [musicTracks.id] }),
+  narrationAsset: one(assets, { fields: [scenes.narrationAssetId], references: [assets.id] }),
 }));
 
 export const assetsRelations = relations(assets, ({ one }) => ({
