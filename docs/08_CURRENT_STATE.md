@@ -25,8 +25,8 @@ CLOUDINARY_API_SECRET=
 JAMENDO_CLIENT_ID=
 FREESOUND_API_KEY=
 YOUTUBE_API_KEY=
-POLLINATIONS_API_KEY=          # Fallback TTS jika HF Space down/rate-limited
-HF_TOKEN=                      # UTAMA — untuk @gradio/client ke NihalGazi/Text-To-Speech-Unlimited (rate limit lebih baik dg token, gratis daftar HF)
+POLLINATIONS_API_KEY=          # BELUM dipakai kode — cuma untuk fallback resmi (gen.pollinations.ai) kalau nanti endpoint legacy di lib/tts/pollinations.ts bermasalah. Tidak perlu diisi sekarang.
+HF_TOKEN=                      # TIDAK dipakai — rencana awal pakai @gradio/client dibatalkan, TTS final panggil text.pollinations.ai langsung tanpa auth. Boleh dikosongkan.
 ```
 
 ## Struktur folder aktual
@@ -35,9 +35,6 @@ HF_TOKEN=                      # UTAMA — untuk @gradio/client ke NihalGazi/Tex
 ## Dependency versi kunci
 (Isi begitu package.json ada — terutama versi `ai` SDK, `@ai-sdk/google`, `@openrouter/ai-sdk-provider`, karena API-nya sering berubah cepat)
 
-## Environment variables baru (auth)
-```
-AUTH_SECRET=              # Auto-generate via `npx auth secret` atau `node -e "crypto.randomBytes(33).toString('base64')"`
-ADMIN_EMAIL=              # Email admin tunggal untuk login (default: admin@ph.com)
-ADMIN_PASSWORD_HASH=      # bcrypt hash password admin — generate via `npx tsx scripts/hash-password.ts "password_anda"`
-```
+## Demo credentials (untuk prototype/testing)
+- Email: `admin@ph.com`
+- Password: `ph123`

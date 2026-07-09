@@ -70,3 +70,45 @@ harus ditulis TANPA tanda kutip sama sekali:
 (seperti hash bcrypt) dengan tanda kutip di file .env*. Kalau debugging env
 var yang "hilang" padahal terlihat ada di file, cek dulu apakah value-nya
 mengandung `$` DAN tanda kutip sekaligus — itu kombinasi berbahaya.
+
+### [9 Juli 2026] — drizzle-kit generate menulis ulang seluruh skema, bukan incremental
+**Konteks:** Task TTS voiceover, perlu tambah kolom narration_asset_id ke
+scenes. Claude Web minta `drizzle-kit generate` supaya migration bisa
+direview dulu sebelum diterapkan (pola hati-hati, bukan langsung push).
+**Error:** File migration yang dihasilkan (0000_nervous_manta.sql) berisi
+CREATE TABLE untuk SEMUA 11 tabel dari nol — bukan cuma ALTER TABLE
+menambah satu kolom. Kalau dijalankan ke database berisi data sungguhan,
+berisiko error atau merusak data.
+**Penyebab:** Project ini SELALU pakai `drizzle-kit push` (diff langsung ke
+DB live) sejak awal, TIDAK PERNAH pakai `drizzle-kit generate`. Karena
+folder drizzle/ tidak punya riwayat migrasi sama sekali, generate
+menganggap ini migrasi pertama sepanjang sejarah dan menulis ulang semua
+skema dari nol.
+**Solusi:** Hapus file migration yang salah, pakai `drizzle-kit push`
+seperti biasa (diff terhadap DB live, cuma terapkan kolom baru yang
+benar-benar berbeda).
+**Pencegahan:** JANGAN PERNAH pakai `drizzle-kit generate` di project ini —
+tidak cocok dengan workflow yang sudah berjalan (push-based, bukan
+migration-file-based). Untuk review perubahan skema sebelum diterapkan,
+cukup baca perubahan di schema.ts langsung (diff kode), bukan minta
+generate file SQL.
+
+### [9 Juli 2026] — drizzle-kit push macet di prompt interaktif (non-TTY shell)
+**Konteks:** Tambah kolom narration_asset_id, drizzle-kit push mendeteksi
+"perlu menambah" uq_scene_number constraint padahal sudah ada di DB
+(diverifikasi via pg_constraint), lalu minta konfirmasi interaktif
+"truncate scenes table?" yang tidak bisa dijawab karena shell (dijalankan
+lewat opencode) bukan TTY sungguhan. --force dan piping stdin ("n" | ...)
+sama-sama tidak bisa bypass prompt ini (drizzle-kit pakai @clack/prompts
+yang cek process.stdin.isTTY secara eksplisit).
+**Solusi:** Setelah verifikasi manual bahwa constraint yang diminta memang
+sudah ada di DB (jadi permintaan push itu kemungkinan false positive),
+terapkan perubahan kolom via SQL ALTER TABLE langsung — tapi HANYA setelah
+verifikasi eksplisit, bukan asumsi. Nama constraint FK diberi manual
+mengikuti pola penamaan otomatis Drizzle (`{table}_{column}_{ref_table}_{ref_column}_fk`)
+supaya push berikutnya tetap konsisten/tidak bingung.
+**Pencegahan:** Kalau drizzle-kit push macet di prompt interaktif di masa
+depan: (1) JANGAN asumsikan aman skip pakai --force, (2) verifikasi dulu
+constraint yang diminta lewat query pg_constraint langsung, (3) kalau
+terbukti sudah ada dan perubahan sebenarnya cuma kolom baru sederhana, baru
+pertimbangkan SQL manual dengan penamaan konsisten pola Drizzle.
