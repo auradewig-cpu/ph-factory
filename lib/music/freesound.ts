@@ -16,6 +16,7 @@ export interface SafeTrack {
   licenseCcurl: string;
   licenseType: string;
   downloadUrl: string;
+  previewUrl: string;
   duration: number;
   source: 'freesound';
 }
@@ -72,6 +73,7 @@ export async function searchFreesoundSounds(query: string): Promise<SafeTrack[]>
         licenseCcurl: s.license,
         licenseType: extractLicenseType(s.license),
         downloadUrl: s.download,
+        previewUrl: s.previews?.['preview-hq-mp3'] ?? '',
         duration: s.duration,
         source: 'freesound',
       });

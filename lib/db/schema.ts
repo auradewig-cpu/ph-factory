@@ -57,6 +57,7 @@ export const musicTracks = pgTable('music_tracks', {
   id: serial('id').primaryKey(),
   source: musicSourceEnum('source').notNull(),
   externalId: text('external_id').notNull(),
+  name: text('name').notNull().default(''),
   licenseUrl: text('license_url'),
   licenseType: text('license_type').notNull(),
   commercialSafe: boolean('commercial_safe').notNull().default(false),

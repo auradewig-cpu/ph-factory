@@ -2,10 +2,11 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { db } from '@/lib/db/client';
-import { productions, formatPresets, projects, assets } from '@/lib/db/schema';
+import { productions, formatPresets, projects, assets, musicTracks } from '@/lib/db/schema';
 import { eq, inArray } from 'drizzle-orm';
 import { listScenesByProduction } from '@/lib/actions/scene';
 import { GenerateScenesForm, CopyButton, VoiceoverButton } from '@/components/SceneClient';
+import { MusicPicker } from '@/components/MusicPicker';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -55,6 +56,18 @@ export default async function ProductionDetailPage({ params }: Props) {
         .where(inArray(assets.id, narrationAssetIds))
     : [];
   const narrationAssetMap = new Map(narrationAssetRows.map((a) => [a.id, a.cloudinaryUrl]));
+
+  const musicTrackIds = sceneList
+    .map((s) => s.musicTrackId)
+    .filter((id): id is number => id !== null);
+
+  const musicTrackRows = musicTrackIds.length > 0
+    ? await db
+        .select({ id: musicTracks.id, trackName: musicTracks.name })
+        .from(musicTracks)
+        .where(inArray(musicTracks.id, musicTrackIds))
+    : [];
+  const musicTrackMap = new Map(musicTrackRows.map((m) => [m.id, m]));
 
   return (
     <div className="flex-1 flex flex-col bg-ph-bg overflow-y-auto h-full">
@@ -128,6 +141,20 @@ export default async function ProductionDetailPage({ params }: Props) {
                     <p className="font-sans text-xs text-ph-text mt-1 italic">{scene.scriptNarration}</p>
                   </div>
                 )}
+                <div className="border-t border-ph-border pt-3 flex items-center justify-between">
+                  <span className="font-mono text-[9px] text-ph-muted tracking-[0.06em] uppercase">Music / SFX</span>
+                  <div className="flex items-center gap-2">
+                    {scene.musicTrackId && musicTrackMap.has(scene.musicTrackId) && (
+                      <span className="font-mono text-[10px] text-ph-muted truncate max-w-[160px]">{musicTrackMap.get(scene.musicTrackId)?.trackName}</span>
+                    )}
+                    <MusicPicker
+                      sceneId={scene.id}
+                      attachedTrack={scene.musicTrackId && musicTrackMap.has(scene.musicTrackId)
+                        ? { name: musicTrackMap.get(scene.musicTrackId)!.trackName, artistName: '' }
+                        : null}
+                    />
+                  </div>
+                </div>
               </div>
             ))}
           </div>

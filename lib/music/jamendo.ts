@@ -16,6 +16,7 @@ export interface SafeTrack {
   licenseCcurl: string;
   licenseType: string;
   downloadUrl: string;
+  previewUrl: string;
   duration: number;
   source: 'jamendo';
 }
@@ -69,6 +70,7 @@ export async function searchJamendoTracks(query: string): Promise<SafeTrack[]> {
         licenseCcurl: t.license_ccurl,
         licenseType: extractLicenseType(t.license_ccurl),
         downloadUrl: t.audiodownload,
+        previewUrl: t.audiodownload,
         duration: t.duration,
         source: 'jamendo',
       });

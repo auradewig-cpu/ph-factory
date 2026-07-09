@@ -22,6 +22,7 @@ export async function attachMusicToScene(
     source: 'jamendo' | 'freesound';
     externalId: string;
     name: string;
+    artistName: string;
     licenseCcurl: string;
     licenseType: string;
     downloadUrl: string;
@@ -43,6 +44,7 @@ export async function attachMusicToScene(
       .values({
         source: track.source,
         externalId: track.externalId,
+        name: track.artistName ? `${track.name} — ${track.artistName}` : track.name,
         licenseUrl: track.licenseCcurl,
         licenseType: track.licenseType,
         commercialSafe: true,
