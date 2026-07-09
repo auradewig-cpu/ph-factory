@@ -9,6 +9,23 @@ interface GenerateVoiceoverParams {
   voice?: string;
 }
 
+const MAX_INPUT_LENGTH = 195;
+
+function truncateToSentence(text: string, maxLen: number): string {
+  if (text.length <= maxLen) return text;
+  const truncated = text.slice(0, maxLen);
+  const lastPeriod = Math.max(
+    truncated.lastIndexOf('.'),
+    truncated.lastIndexOf('!'),
+    truncated.lastIndexOf('?'),
+  );
+  if (lastPeriod > maxLen * 0.5) {
+    return truncated.slice(0, lastPeriod + 1);
+  }
+  const lastSpace = truncated.lastIndexOf(' ');
+  return truncated.slice(0, lastSpace === -1 ? maxLen : lastSpace) + '...';
+}
+
 const SPACE_BASE = 'https://nihalgazi-text-to-speech-unlimited.hf.space/gradio_api';
 
 function parseSseData(text: string): unknown[] | null {
@@ -29,8 +46,9 @@ export async function generateVoiceover(params: GenerateVoiceoverParams): Promis
   if (!VALID_VOICES.has(voice)) {
     throw new Error(`Voice tidak valid: "${voice}"`);
   }
-  if (params.text.length > 200) {
-    throw new Error(`Teks terlalu panjang untuk TTS (${params.text.length} karakter, maks 200). Perlu strategi pemotongan — lihat catatan di 09_TASK_TRACKER.md`);
+  const truncatedText = truncateToSentence(params.text, MAX_INPUT_LENGTH);
+  if (truncatedText !== params.text) {
+    console.log(`[TTS] Teks dipotong dari ${params.text.length} ke ${truncatedText.length} karakter`);
   }
 
   const startRes = await fetch(`${SPACE_BASE}/call/text_to_speech_app`, {
@@ -38,7 +56,7 @@ export async function generateVoiceover(params: GenerateVoiceoverParams): Promis
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       data: [
-        params.text,
+        truncatedText,
         voice,
         emotion,
         true,
