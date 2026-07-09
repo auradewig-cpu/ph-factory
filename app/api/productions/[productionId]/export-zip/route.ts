@@ -47,7 +47,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ product
   const narrationAssets = narrationAssetIds.length > 0
     ? await db.select().from(assets).where(inArray(assets.id, narrationAssetIds))
     : [];
-  const narrationUrlMap = new Map(narrationAssets.map((a) => [a.sceneId, a.cloudinaryUrl]));
+  const narrationUrlMap = new Map(narrationAssets.map((a) => [a.id, a.cloudinaryUrl]));
 
   const musicTrackIds = sceneRows
     .map((s) => s.musicTrackId)
@@ -87,7 +87,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ product
     }
 
     if (scene.narrationAssetId) {
-      const url = narrationUrlMap.get(scene.sceneNumber);
+      const url = narrationUrlMap.get(scene.narrationAssetId!);
       if (url) {
         try {
           const audioRes = await fetch(url);
