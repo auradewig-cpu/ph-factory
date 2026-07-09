@@ -9,7 +9,7 @@ interface GenerateVoiceoverParams {
   voice?: string;
 }
 
-const MAX_INPUT_LENGTH = 195;
+const MAX_INPUT_LENGTH = 950;
 
 function truncateToSentence(text: string, maxLen: number): string {
   if (text.length <= maxLen) return text;

@@ -19,7 +19,7 @@ Update REAL-TIME selama kerja — beda dari 03_TASKS.md (breakdown awal, statis)
 | — | Production CRUD (platform di-derive dari format_presets) | Selesai | Termasuk seed 8 format_presets |
 | T2.1 | Director Engine v1 (generate scene via Gemini) | **SELESAI PENUH** | Uji beban 20 scene di Vercel: ~15-20 detik, jauh di bawah maxDuration=60. Job-queue tidak diperlukan |
 | — | Dashboard terhubung data asli | **SELESAI PENUH** | Semua data dummy terhapus, termasuk fix query sceneCount (ambiguous column) |
-| T3.4 | TTS/voiceover (baru) | **SELESAI** | HF Space NihalGazi/Text-To-Speech-Unlimited + POLLINATIONS_API_KEY sbg api_key_input (premium tier). Panggil langsung via REST API (tanpa @gradio/client — hindari dependensi build Vercel). Teks >195 karakter otomatis dipotong di batas kalimat terdekat (truncateToSentence). UI: VoiceoverButton per-scene (manual, bukan batch). |
+| T3.4 | TTS/voiceover (baru) | **SELESAI** | HF Space NihalGazi/Text-To-Speech-Unlimited + POLLINATIONS_API_KEY sbg api_key_input (premium tier). Limit truncation dinaikkan dari 195 → 950. Terverifikasi langsung via script: API menerima hingga ≥10.000 karakter tanpa error. Scene #1 (289 chars) terkirim utuh, audio ~11,3 detik. Safety net 950 cukup untuk semua scene realistic. |
 | — | 5 halaman placeholder ke app/(admin)/ | **SELESAI** | Sidebar konsisten di semua 7 menu, terverifikasi user di production Vercel |
 | — | loading.tsx untuk navigasi instan | **SELESAI** | 4 file loading.tsx skeleton (dashboard + projects 3 level), TS compile zero error, terverifikasi di localhost |
 
