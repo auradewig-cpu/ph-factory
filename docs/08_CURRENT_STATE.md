@@ -17,7 +17,7 @@ CLOUDINARY_API_KEY=
 CLOUDINARY_API_SECRET=
 JAMENDO_CLIENT_ID=         # Belum dipakai
 FREESOUND_API_KEY=         # Belum dipakai
-YOUTUBE_API_KEY=           # Belum dipakai
+YOUTUBE_API_KEY=           # Dipakai: lib/youtube/client.ts (YouTube Data API v3)
 POLLINATIONS_API_KEY=      # Dipakai: lib/tts/hf-space.ts (api_key_input HF Space) — premium tier
 HF_TOKEN=                  # TIDAK dipakai
 ```

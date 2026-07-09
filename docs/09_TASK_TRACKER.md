@@ -23,7 +23,8 @@ Update REAL-TIME selama kerja — beda dari 03_TASKS.md (breakdown awal, statis)
 | T3.5 | Audio tags di masterPrompt | **SELESAI** | 5 tag ([laughs],[sighs],[excited],[whispers],[gasps]) terverifikasi berfungsi di HF Space TTS. Diintegrasikan ke compileMasterPrompt() (hanya untuk voiceMode selain 'none'). Gemini akan menyisipkan tag secara wajar (1-2 per scene, tidak dipaksakan). |
 | — | 5 halaman placeholder ke app/(admin)/ | **SELESAI** | Sidebar konsisten di semua 7 menu, terverifikasi user di production Vercel |
 | — | loading.tsx untuk navigasi instan | **SELESAI** | 4 file loading.tsx skeleton (dashboard + projects 3 level), TS compile zero error, terverifikasi di localhost |
-
+| T2.2 | Research Engine v1 — YouTube backend | **SELESAI** | lib/youtube/client.ts (search, stats, channel) + lib/actions/research.ts (orkestrasi + sintesis Gemini). CATATAN: YouTube API key perlu di-enable manual di Google Cloud Console (YouTube Data API v3) sebelum bisa dipakai. UI menyusul (Fase 2 terpisah). |
+ 
 ## Belum diputuskan / masih menggantung
 - [ ] Login localhost gagal ("Credential tidak valid") meski Vercel production
       berhasil — belum diselesaikan, ditunda karena tidak mengganggu pemakaian
