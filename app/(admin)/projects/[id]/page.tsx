@@ -2,11 +2,13 @@ import { db } from '@/lib/db/client';
 import { projects, personas, assets, formatPresets } from '@/lib/db/schema';
 import { eq, inArray } from 'drizzle-orm';
 import { notFound } from 'next/navigation';
-import { ArrowLeft, ImageIcon } from 'lucide-react';
+import { ArrowLeft, ImageIcon, Lightbulb, Youtube, Clock, CalendarDays } from 'lucide-react';
 import Link from 'next/link';
 import { PersonaForm } from '@/components/PersonaForm';
 import { ProductionForm } from '@/components/ProductionForm';
+import { ResearchForm } from '@/components/ResearchForm';
 import { listProductionsByProject } from '@/lib/actions/production';
+import { listResearchReports } from '@/lib/actions/research';
 
 export const dynamic = 'force-dynamic';
 
@@ -43,6 +45,8 @@ export default async function ProjectDetailPage({ params }: Props) {
   const assetMap = new Map(assetRows.map((a) => [a.id, a]));
 
   const productionList = await listProductionsByProject(projectId);
+
+  const researchList = await listResearchReports(projectId);
 
   const presetList = await db
     .select({ id: formatPresets.id, name: formatPresets.name, ratio: formatPresets.ratio })
@@ -138,6 +142,97 @@ export default async function ProjectDetailPage({ params }: Props) {
             </div>
           )}
         </div>
+        {/* Research Reports section */}
+        <div className="bg-ph-surface border border-ph-border rounded-lg p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-display text-sm font-bold tracking-[0.12em] text-ph-muted uppercase">Research Reports</h2>
+            <ResearchForm projectId={projectId} />
+          </div>
+
+          {researchList.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-8 border border-dashed border-ph-border rounded-lg text-center">
+              <div className="font-display text-base font-bold tracking-[0.06em] text-ph-muted mb-1">BELUM ADA RISET</div>
+              <div className="font-sans text-xs text-ph-muted">Generate riset YouTube untuk mendapatkan wawasan konten.</div>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-4">
+              {researchList.map((report) => {
+                const rf = report.rawFindings as {
+                  query?: string;
+                  synthesis?: { summary?: string; patterns?: string[]; contentGapSuggestions?: string[]; recommendedHookStyles?: string[] };
+                } | null;
+                const synthesis = rf?.synthesis;
+
+                return (
+                  <div key={report.id} className="bg-ph-bg border border-ph-border rounded-lg p-4">
+                    <div className="flex items-start justify-between gap-3 mb-3">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="font-mono text-[9px] text-ph-teal border border-ph-teal/30 rounded-[3px] px-[6px] py-[2px] flex items-center gap-1">
+                          <Youtube size={10} /> YOUTUBE
+                        </span>
+                        {report.isStale ? (
+                          <span className="font-mono text-[9px] text-ph-amber border border-ph-amber/30 rounded-[3px] px-[6px] py-[2px] bg-[rgba(242,169,59,0.07)]">STALE</span>
+                        ) : (
+                          <span className="font-mono text-[9px] text-ph-teal border border-ph-teal/30 rounded-[3px] px-[6px] py-[2px]">FRESH</span>
+                        )}
+                      </div>
+                      <span className="font-mono text-[9px] text-ph-muted flex items-center gap-1 flex-shrink-0">
+                        <CalendarDays size={10} />
+                        {new Date(report.createdAt).toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric' })}
+                      </span>
+                    </div>
+
+                    {rf?.query && (
+                      <div className="font-mono text-[10px] text-ph-muted mb-2">
+                        Query: &quot;{rf.query}&quot;
+                      </div>
+                    )}
+
+                    {synthesis?.summary && (
+                      <div className="font-sans text-sm text-ph-text leading-[1.6] mb-3">{synthesis.summary}</div>
+                    )}
+
+                    {synthesis?.patterns && synthesis.patterns.length > 0 && (
+                      <div className="mb-3">
+                        <div className="font-mono text-[10px] text-ph-muted tracking-[0.06em] mb-1.5 flex items-center gap-1">
+                          <Lightbulb size={10} /> POLA KONTEN
+                        </div>
+                        <ul className="list-disc list-inside flex flex-col gap-1">
+                          {synthesis.patterns.map((p, i) => (
+                            <li key={i} className="font-sans text-xs text-ph-text leading-[1.5]">{p}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {synthesis?.contentGapSuggestions && synthesis.contentGapSuggestions.length > 0 && (
+                      <div className="mb-3">
+                        <div className="font-mono text-[10px] text-ph-muted tracking-[0.06em] mb-1.5">IDE KONTEN (GAP)</div>
+                        <ul className="list-disc list-inside flex flex-col gap-1">
+                          {synthesis.contentGapSuggestions.map((p, i) => (
+                            <li key={i} className="font-sans text-xs text-ph-text leading-[1.5]">{p}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {synthesis?.recommendedHookStyles && synthesis.recommendedHookStyles.length > 0 && (
+                      <div>
+                        <div className="font-mono text-[10px] text-ph-muted tracking-[0.06em] mb-1.5">HOOK REKOMENDASI</div>
+                        <ul className="list-disc list-inside flex flex-col gap-1">
+                          {synthesis.recommendedHookStyles.map((p, i) => (
+                            <li key={i} className="font-sans text-xs text-ph-text leading-[1.5]">{p}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
         {/* Productions section */}
         <div className="bg-ph-surface border border-ph-border rounded-lg p-5">
           <div className="flex items-center justify-between mb-4">
