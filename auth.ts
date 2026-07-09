@@ -16,13 +16,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       credentials: { email: {}, password: {} },
       authorize: async (raw) => {
         const parsed = credentialsSchema.safeParse(raw);
-        if (!parsed.success) return null;
+        if (!parsed.success) {
+          return null;
+        }
         const { email, password } = parsed.data;
 
-        if (email !== process.env.ADMIN_EMAIL) return null;
+        if (email !== process.env.ADMIN_EMAIL) {
+          return null;
+        }
         const valid = await bcrypt.compare(password, process.env.ADMIN_PASSWORD_HASH!);
-        if (!valid) return null;
-
+        if (!valid) {
+          return null;
+        }
         return { id: '1', email };
       },
     }),
