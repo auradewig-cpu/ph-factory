@@ -2,7 +2,7 @@ import { db } from '@/lib/db/client';
 import { projects, personas, assets, formatPresets } from '@/lib/db/schema';
 import { eq, inArray } from 'drizzle-orm';
 import { notFound } from 'next/navigation';
-import { ArrowLeft, ImageIcon, Lightbulb, Youtube, Clock, CalendarDays } from 'lucide-react';
+import { ArrowLeft, ImageIcon, Lightbulb, Youtube, Instagram, Facebook, Video, CalendarDays } from 'lucide-react';
 import Link from 'next/link';
 import { PersonaForm } from '@/components/PersonaForm';
 import { ProductionForm } from '@/components/ProductionForm';
@@ -168,7 +168,10 @@ export default async function ProjectDetailPage({ params }: Props) {
                     <div className="flex items-start justify-between gap-3 mb-3">
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="font-mono text-[9px] text-ph-teal border border-ph-teal/30 rounded-[3px] px-[6px] py-[2px] flex items-center gap-1">
-                          <Youtube size={10} /> YOUTUBE
+                          {report.platform === 'youtube' && <><Youtube size={10} /> YOUTUBE</>}
+                          {report.platform === 'tiktok' && <><Video size={10} /> TIKTOK</>}
+                          {report.platform === 'instagram' && <><Instagram size={10} /> INSTAGRAM</>}
+                          {report.platform === 'facebook' && <><Facebook size={10} /> FACEBOOK</>}
                         </span>
                         {report.isStale ? (
                           <span className="font-mono text-[9px] text-ph-amber border border-ph-amber/30 rounded-[3px] px-[6px] py-[2px] bg-[rgba(242,169,59,0.07)]">STALE</span>

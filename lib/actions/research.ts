@@ -3,6 +3,7 @@
 import { z } from 'zod';
 import { generateObjectWithFallback } from '@/lib/ai/fallback';
 import { searchTopVideos, getVideoStats, getChannelStats } from '@/lib/youtube/client';
+import { searchWebGrounded } from '@/lib/research/grounding';
 import { researchQuerySchema, researchSynthesisSchema } from '@/lib/validation/research';
 import { revalidatePath } from 'next/cache';
 import { db } from '@/lib/db/client';
@@ -81,6 +82,54 @@ Gunakan data nyata di atas sebagai dasar analisis — jangan mengarang tanpa dat
       summary: synthesis.summary,
       rawFindings: {
         ...rawFindings,
+        synthesis,
+      },
+      status: 'fresh',
+    })
+    .returning({ id: researchReports.id });
+
+  revalidatePath(`/projects/${projectId}`);
+
+  return report.id;
+}
+
+export async function generateSocialResearchReport(
+  projectId: number,
+  query: string,
+  platform: 'tiktok' | 'instagram' | 'facebook',
+) {
+  researchQuerySchema.parse({ query, projectId });
+
+  const { text: groundedText, sources } = await searchWebGrounded(query, platform);
+
+  const prompt = `Berikut adalah hasil riset tentang tren konten di ${platform} untuk topik "${query}":
+
+${groundedText}
+
+Berdasarkan data di atas, berikan:
+1. Ringkasan (summary): 3-5 kalimat tentang tren konten yang berhasil di platform ini
+2. Patterns: pola konten, format, dan pendekatan yang sering dipakai
+3. ContentGapSuggestions: ide konten yang belum banyak dibuat kompetitor
+4. RecommendedHookStyles: gaya hook pembuka yang efektif untuk platform ini
+
+Gunakan data riset nyata di atas — jangan mengarang tanpa data.`;
+
+  const { object: synthesis } = await generateObjectWithFallback({
+    schema: researchSynthesisSchema,
+    prompt,
+  });
+
+  const [report] = await db
+    .insert(researchReports)
+    .values({
+      projectId,
+      platform,
+      summary: synthesis.summary,
+      rawFindings: {
+        query,
+        platform,
+        groundedText,
+        sources,
         synthesis,
       },
       status: 'fresh',
