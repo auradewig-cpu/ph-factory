@@ -7,6 +7,7 @@ import { eq, inArray } from 'drizzle-orm';
 import { listScenesByProduction } from '@/lib/actions/scene';
 import { GenerateScenesForm, CopyButton, VoiceoverButton } from '@/components/SceneClient';
 import { MusicPicker } from '@/components/MusicPicker';
+import { ChainFrameUpload } from '@/components/ChainFrameUpload';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -69,6 +70,18 @@ export default async function ProductionDetailPage({ params }: Props) {
     : [];
   const musicTrackMap = new Map(musicTrackRows.map((m) => [m.id, m]));
 
+  const chainAssetIds = sceneList
+    .map((s) => s.chainAssetId)
+    .filter((id): id is number => id !== null);
+
+  const chainAssetRows = chainAssetIds.length > 0
+    ? await db
+        .select({ id: assets.id, cloudinaryUrl: assets.cloudinaryUrl })
+        .from(assets)
+        .where(inArray(assets.id, chainAssetIds))
+    : [];
+  const chainAssetMap = new Map(chainAssetRows.map((a) => [a.id, a.cloudinaryUrl]));
+
   return (
     <div className="flex-1 flex flex-col bg-ph-bg overflow-y-auto h-full">
       <div className="flex items-center gap-4 px-7 py-5 border-b border-ph-border bg-ph-bg sticky top-0 z-10">
@@ -120,6 +133,12 @@ export default async function ProductionDetailPage({ params }: Props) {
                     <span className="font-mono text-[10px] text-ph-muted">· {scene.durationSeconds}s · {scene.maxWords} kata</span>
                   </div>
                 </div>
+
+                <ChainFrameUpload
+                  sceneId={scene.id}
+                  continuityType={scene.continuityType}
+                  chainFrameUrl={scene.chainAssetId ? (chainAssetMap.get(scene.chainAssetId) ?? null) : null}
+                />
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="flex flex-col gap-1">
