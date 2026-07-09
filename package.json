@@ -55,6 +55,7 @@
     "drizzle-orm": "^0.45.2",
     "embla-carousel-react": "8.6.0",
     "file-type": "^22.0.1",
+    "jszip": "^3.10.1",
     "lucide-react": "0.487.0",
     "motion": "12.23.24",
     "next": "16.2.10",
