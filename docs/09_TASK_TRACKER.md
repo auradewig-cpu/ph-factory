@@ -7,7 +7,7 @@ Update REAL-TIME selama kerja — beda dari 03_TASKS.md (breakdown awal, statis)
 | T0.1 | Init Next.js + TS + Tailwind | Selesai | Hasil migrasi dari Figma export, build production sukses |
 | T0.2 | Setup Neon Postgres | Selesai | db:push sukses, terverifikasi query nyata di localhost & Vercel |
 | T0.4 | Setup Cloudinary (storage & delivery) | Selesai | Upload foto persona terverifikasi berhasil di production Vercel |
-| T0.5 | Setup Vercel AI SDK + provider | **SELESAI** | Gemini, Groq (llama-3.3-70b-versatile), OpenRouter (meta-llama/llama-3.3-70b-instruct:free). Fallback otomatis: Gemini→Groq→OpenRouter dengan logging per-provider ke api_usage_log. Widget kuota di sidebar (hijau/kuning/merah). |
+| T0.5 | Setup Vercel AI SDK + provider | **SELESAI** | Gemini, Groq (llama-3.3-70b-versatile), Cerebras (gpt-oss-120b via .chat()), Mistral (mistral-small-latest), OpenRouter (meta-llama/llama-3.3-70b-instruct:free). Fallback otomatis: Gemini→Groq→Cerebras→Mistral→OpenRouter dengan logging per-provider ke api_usage_log. Widget kuota di sidebar (hijau/kuning/merah). |
 | T0.6 | Setup Jamendo + Freesound client | Belum mulai | — |
 | T0.7 | Auth sungguhan (Auth.js v5 + Credentials) | **SELESAI PENUH** | Login/logout & proteksi proxy.ts terverifikasi di production. 3 insiden selama pengerjaan: (1) hash placeholder testing tertinggal, (2) script test Playwright menimpa ADMIN_PASSWORD_HASH dengan hash password test, (3) tanda kutip di .env.local bikin value $ dianggap variable substitution — semua sudah dicatat di 06_ERROR_LOG.md |
 | T0.8 | Struktur folder | Selesai | Sesuai 04_CODING_CONVENTIONS.md |

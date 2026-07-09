@@ -14,6 +14,12 @@ importers:
       '@ai-sdk/groq':
         specifier: ^4.0.5
         version: 4.0.5(zod@4.4.3)
+      '@ai-sdk/mistral':
+        specifier: ^4.0.6
+        version: 4.0.6(zod@4.4.3)
+      '@ai-sdk/openai':
+        specifier: ^4.0.8
+        version: 4.0.8(zod@4.4.3)
       '@neondatabase/serverless':
         specifier: ^1.1.0
         version: 1.1.0
@@ -218,6 +224,18 @@ packages:
 
   '@ai-sdk/groq@4.0.5':
     resolution: {integrity: sha512-aiAxz/Og5Z1DZ8XR7UHmb8exxXF9qHAem0TwSFod2b6Imz0AJ22tygl2M9mbv0Q5gCTWkAq7DyOXXdJYv1hzHw==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+
+  '@ai-sdk/mistral@4.0.6':
+    resolution: {integrity: sha512-OtTV9Rh8YcP3pyDnC1w9wIEF1C36PuWpKJAjred23udHVlaradU2dHve/tnFlfK5fINew89HABNRhHz1MTQocg==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+
+  '@ai-sdk/openai@4.0.8':
+    resolution: {integrity: sha512-yW2UuS6jlu2LRYCd+cSpVdu/umf+QjypihYAiGvKk5HnpqQf21ffNjFbke9xo9jhT+TBt2YR30Fs5Sy0md/dfA==}
     engines: {node: '>=22'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -2380,6 +2398,18 @@ snapshots:
       zod: 4.4.3
 
   '@ai-sdk/groq@4.0.5(zod@4.4.3)':
+    dependencies:
+      '@ai-sdk/provider': 4.0.2
+      '@ai-sdk/provider-utils': 5.0.5(zod@4.4.3)
+      zod: 4.4.3
+
+  '@ai-sdk/mistral@4.0.6(zod@4.4.3)':
+    dependencies:
+      '@ai-sdk/provider': 4.0.2
+      '@ai-sdk/provider-utils': 5.0.5(zod@4.4.3)
+      zod: 4.4.3
+
+  '@ai-sdk/openai@4.0.8(zod@4.4.3)':
     dependencies:
       '@ai-sdk/provider': 4.0.2
       '@ai-sdk/provider-utils': 5.0.5(zod@4.4.3)

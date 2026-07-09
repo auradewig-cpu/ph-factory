@@ -1,5 +1,7 @@
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { createGroq } from '@ai-sdk/groq';
+import { createOpenAI } from '@ai-sdk/openai';
+import { createMistral } from '@ai-sdk/mistral';
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 
 const googleProvider = createGoogleGenerativeAI({
@@ -13,6 +15,19 @@ const groqProvider = createGroq({
 });
 
 export const groqModel = groqProvider('llama-3.3-70b-versatile');
+
+const cerebrasProvider = createOpenAI({
+  apiKey: process.env.CEREBRAS_API_KEY,
+  baseURL: 'https://api.cerebras.ai/v1',
+});
+
+export const cerebrasModel = cerebrasProvider.chat('gpt-oss-120b');
+
+const mistralProvider = createMistral({
+  apiKey: process.env.MISTRAL_API_KEY,
+});
+
+export const mistralModel = mistralProvider('mistral-small-latest');
 
 const openrouterProvider = createOpenRouter({
   apiKey: process.env.OPENROUTER_API_KEY,

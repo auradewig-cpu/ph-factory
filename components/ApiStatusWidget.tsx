@@ -12,6 +12,8 @@ const STATUS_COLOR: Record<string, string> = {
 const PROVIDER_LABEL: Record<string, string> = {
   gemini: 'GEMINI',
   groq: 'GROQ',
+  cerebras: 'CEREBRAS',
+  mistral: 'MISTRAL',
   openrouter: 'OROUTER',
 };
 

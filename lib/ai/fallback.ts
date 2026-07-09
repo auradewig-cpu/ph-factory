@@ -1,10 +1,12 @@
 import { generateObject } from 'ai';
-import { geminiModel, groqModel, openrouterModel } from './client';
+import { geminiModel, groqModel, cerebrasModel, mistralModel, openrouterModel } from './client';
 import { recordApiUsage } from './usage';
 
 const PROVIDERS = [
   { name: 'gemini' as const, model: geminiModel },
   { name: 'groq' as const, model: groqModel },
+  { name: 'cerebras' as const, model: cerebrasModel },
+  { name: 'mistral' as const, model: mistralModel },
   { name: 'openrouter' as const, model: openrouterModel },
 ];
 

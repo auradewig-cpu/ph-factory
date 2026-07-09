@@ -9,6 +9,8 @@ Terakhir update: 9 Juli 2026 (opencode-DeepSeek)
 DATABASE_URL=              # Neon Postgres
 GEMINI_API_KEY=            # Dipakai: lib/ai/client.ts (Gemini via @ai-sdk/google)
 GROQ_API_KEY=              # Dipakai: lib/ai/client.ts (Groq via @ai-sdk/groq) — fallback AI
+CEREBRAS_API_KEY=          # Dipakai: lib/ai/client.ts (Cerebras via @ai-sdk/openai .chat()) — fallback AI
+MISTRAL_API_KEY=           # Dipakai: lib/ai/client.ts (Mistral via @ai-sdk/mistral) — fallback AI
 OPENROUTER_API_KEY=        # Dipakai: lib/ai/client.ts (OpenRouter via @openrouter/ai-sdk-provider) — fallback AI
 CLOUDINARY_CLOUD_NAME=     # Dipakai: lib/cloudinary/upload.ts
 CLOUDINARY_API_KEY=
@@ -24,6 +26,8 @@ HF_TOKEN=                  # TIDAK dipakai
 - `ai` SDK: ^7.0.16
 - `@ai-sdk/google`: ^4.0.8 (Gemini provider)
 - `@ai-sdk/groq`: ^4.0.5 (Groq provider — fallback)
+- `@ai-sdk/openai`: ^4.0.8 (Cerebras provider via .chat() — fallback)
+- `@ai-sdk/mistral`: ^4.0.6 (Mistral provider — fallback)
 - `@openrouter/ai-sdk-provider`: ^3.0.0 (OpenRouter provider — fallback)
 
 ## Demo credentials (untuk prototype/testing)
