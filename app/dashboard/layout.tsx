@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { Sidebar } from '@/components/Sidebar';
 
@@ -18,16 +18,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const router = useRouter();
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    if (localStorage.getItem('ph_logged_in') !== 'true') {
-      router.replace('/');
-    }
-  }, [router]);
-
-  if (!mounted) return null;
 
   const activeItem = NAV_MAP[pathname] || 'dashboard';
 

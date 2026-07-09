@@ -1,6 +1,8 @@
 'use client';
 
-import { LayoutDashboard, FolderOpen, FlaskConical, Film, Calendar, Music, Settings, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { signOut } from 'next-auth/react';
+import { LayoutDashboard, FolderOpen, FlaskConical, Film, Calendar, Music, Settings, LogOut, ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const MENU_ITEMS = [
@@ -21,6 +23,13 @@ interface Props {
 }
 
 export function Sidebar({ activeItem, onNavigate, collapsed, onToggleCollapse }: Props) {
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await signOut({ redirect: false });
+    router.push('/');
+  };
+
   return (
     <div
       className={cn(
@@ -63,7 +72,20 @@ export function Sidebar({ activeItem, onNavigate, collapsed, onToggleCollapse }:
         })}
       </nav>
 
-      {/* Bottom spacer — no API Usage widget */}
+      {/* Logout */}
+      <div className="border-t border-ph-border">
+        <button
+          onClick={handleLogout}
+          title={collapsed ? 'Logout' : undefined}
+          className={cn(
+            'w-full flex items-center gap-2.5 border-none cursor-pointer transition-all duration-150 outline-offset-[-2px] focus-visible:outline-2 focus-visible:outline-ph-amber text-ph-muted hover:text-ph-error',
+            collapsed ? 'justify-center py-[9px]' : 'py-[9px] px-[14px] justify-start',
+          )}
+        >
+          <LogOut size={15} className="flex-shrink-0" />
+          {!collapsed && <span className="font-sans text-xs font-normal whitespace-nowrap">Logout</span>}
+        </button>
+      </div>
       {collapsed && <div className="pb-3" />}
     </div>
   );

@@ -35,6 +35,9 @@ HF_TOKEN=                      # UTAMA — untuk @gradio/client ke NihalGazi/Tex
 ## Dependency versi kunci
 (Isi begitu package.json ada — terutama versi `ai` SDK, `@ai-sdk/google`, `@openrouter/ai-sdk-provider`, karena API-nya sering berubah cepat)
 
-## Demo credentials (untuk prototype/testing)
-- Email: `admin@ph.com`
-- Password: `ph123`
+## Environment variables baru (auth)
+```
+AUTH_SECRET=              # Auto-generate via `npx auth secret` atau `node -e "crypto.randomBytes(33).toString('base64')"`
+ADMIN_EMAIL=              # Email admin tunggal untuk login (default: admin@ph.com)
+ADMIN_PASSWORD_HASH=      # bcrypt hash password admin — generate via `npx tsx scripts/hash-password.ts "password_anda"`
+```

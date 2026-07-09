@@ -17,12 +17,15 @@ Update REAL-TIME selama kerja — beda dari 03_TASKS.md (breakdown awal, statis)
 | T1.5 | Persona CRUD + upload foto referensi | Selesai | Kompilasi description template terverifikasi benar, upload Cloudinary terverifikasi jalan di production |
 | T1.6 | Setup Drizzle ORM + schema | Selesai | Direview berlapis (circular FK dgn AnyPgColumn, storage Cloudinary-only, this-binding Proxy) |
 | — | Production CRUD (platform di-derive dari format_presets) | Selesai | Termasuk seed 8 format_presets |
-| T2.1 | Director Engine v1 (generate scene via Gemini) | Selesai | Upsert (bukan delete+insert biar aman tanpa transaction — neon-http tidak dukung transaction), maxDuration=60 aktif. Uji beban 20 scene di Vercel BELUM ada hasilnya (sempat terhambat error env var Gemini yang belum di-set) |
+| T2.1 | Director Engine v1 (generate scene via Gemini) | **SELESAI PENUH** | Uji beban 20 scene di Vercel production: ~15-20 detik, jauh di bawah maxDuration=60. Job-queue TIDAK diperlukan untuk sekarang. Root cause fix terakhir: @ai-sdk/google butuh apiKey eksplisit via createGoogleGenerativeAI(), tidak otomatis baca GEMINI_API_KEY (SDK expect GOOGLE_GENERATIVE_AI_API_KEY secara default) |
 | T3.4 | TTS/voiceover (baru) | Belum mulai | UTAMA: HuggingFace Space NihalGazi/Text-To-Speech-Unlimited via @gradio/client (butuh HF_TOKEN, gratis daftar) — cek exact param via "Use via API" di Space tsb SEBELUM koding, jangan tebak urutan argumen. FALLBACK: Pollinations TTS (POST gen.pollinations.ai/v1/audio/speech, butuh POLLINATIONS_API_KEY dari enter.pollinations.ai, sistem kredit Pollen) kalau HF Space down/sleep/rate-limited. Trigger: voiceMode='voiceover_only' atau 'on_camera_dialogue'. Simpan ke tabel assets (type: 'audio', sudah ada di schema) |
 
+| T0.7 | Auth sungguhan (Auth.js v5 + Credentials) | **SELESAI PENUH** | Terverifikasi login/logout & proteksi proxy.ts berfungsi di production. Sempat 2x insiden: (1) hash password placeholder testing tidak sengaja tertinggal di .env.local, (2) fix query dashboard sempat cuma di working directory, belum ter-commit — pelajaran: selalu verifikasi git show HEAD setelah push, jangan percaya laporan "berhasil" begitu saja |
+| — | Dashboard terhubung data asli | **SELESAI PENUH** | Semua data dummy terhapus, termasuk fix query sceneCount (ambiguous column — qualifier tabel eksplisit) |
+
 ## Belum diputuskan / masih menggantung
-- [ ] Hasil uji generate 20 scene di Vercel (setelah GEMINI_API_KEY dipastikan ter-set) — menentukan perlu job-queue (tabel `jobs`) atau tidak
 - [ ] Prioritas auth sungguhan (T0.7) — app sudah live di URL publik tanpa proteksi apa pun
 - [ ] Halaman /dashboard menghubungkan ke data asli (masih dummy dari Figma)
+- [ ] Prioritas fitur TTS voiceover (T3.4)
 
 Status yang valid: `Belum mulai` / `Dikerjakan` / `Selesai` / `Diskip` / `Diubah` (kalau Diskip/Diubah wajib isi kolom catatan).
