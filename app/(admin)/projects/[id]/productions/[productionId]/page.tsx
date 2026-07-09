@@ -91,7 +91,16 @@ export default async function ProductionDetailPage({ params }: Props) {
             </div>
             <span className="font-mono text-[9px] px-[6px] py-[2px] rounded-[3px] border text-ph-amber border-ph-amber/30 bg-[rgba(242,169,59,0.07)] uppercase self-start mt-1">{prod.status}</span>
           </div>
-          <GenerateScenesForm productionId={prodId} />
+          <div className="flex items-center gap-2">
+            <GenerateScenesForm productionId={prodId} />
+            <a
+              href={`/api/productions/${prodId}/export-zip`}
+              download
+              className="flex items-center gap-1.5 px-[14px] py-[9px] bg-transparent border border-ph-border text-ph-muted font-display text-[13px] font-bold tracking-[0.1em] rounded-[4px] no-underline cursor-pointer hover:text-ph-text hover:border-ph-muted transition-colors duration-150 outline-offset-2 focus-visible:outline-2 focus-visible:outline-ph-amber"
+            >
+              EXPORT ZIP
+            </a>
+          </div>
         </div>
 
         {/* Scene list */}
