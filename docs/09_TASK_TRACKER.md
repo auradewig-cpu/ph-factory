@@ -19,7 +19,7 @@ Update REAL-TIME selama kerja — beda dari 03_TASKS.md (breakdown awal, statis)
 | — | Production CRUD (platform di-derive dari format_presets) | Selesai | Termasuk seed 8 format_presets |
 | T2.1 | Director Engine v1 (generate scene via Gemini) | **SELESAI PENUH** | Uji beban 20 scene di Vercel: ~15-20 detik, jauh di bawah maxDuration=60. Job-queue tidak diperlukan |
 | — | Dashboard terhubung data asli | **SELESAI PENUH** | Semua data dummy terhapus, termasuk fix query sceneCount (ambiguous column) |
-| T3.4 | TTS/voiceover (baru) | Belum mulai | UTAMA: HF Space NihalGazi/Text-To-Speech-Unlimited via @gradio/client (HF_TOKEN). FALLBACK: Pollinations TTS (POLLINATIONS_API_KEY). Trigger: voiceMode ≠ 'none'. Simpan ke assets (type: 'audio') |
+| T3.4 | TTS/voiceover (baru) | **SELESAI** | HF Space NihalGazi/Text-To-Speech-Unlimited via @gradio/client + POLLINATIONS_API_KEY sbg api_key_input (premium tier). Keputusan final: lewat HF Space, BUKAN panggil gen.pollinations.ai langsung (gagal balance 0). Narasi >200 karakter throw error dulu (belum ada split strategy). UI: VoiceoverButton per-scene (manual, bukan batch). |
 | — | 5 halaman placeholder ke app/(admin)/ | **SELESAI** | Sidebar konsisten di semua 7 menu, terverifikasi user di production Vercel |
 | — | loading.tsx untuk navigasi instan | **SELESAI** | 4 file loading.tsx skeleton (dashboard + projects 3 level), TS compile zero error, terverifikasi di localhost |
 
@@ -29,7 +29,7 @@ Update REAL-TIME selama kerja — beda dari 03_TASKS.md (breakdown awal, statis)
       (user kerja dari production). Kemungkinan .env.local lokal beda dari yang
       terakhir terverifikasi jalan. Investigasi ulang kalau development lokal
       dibutuhkan lagi nanti.
-- [ ] Prioritas fitur TTS voiceover (T3.4)
+
 - [ ] Groq/OpenRouter fallback belum diimplementasi (T0.5)
 
 ## Pelajaran proses penting (jangan diulang)
