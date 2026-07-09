@@ -22,7 +22,7 @@ Update REAL-TIME selama kerja — beda dari 03_TASKS.md (breakdown awal, statis)
 | T2.1 | Director Engine v1 (generate scene via Gemini) | **SELESAI PENUH** | Uji beban 20 scene di Vercel: ~15-20 detik, jauh di bawah maxDuration=60. Job-queue tidak diperlukan |
 | — | Dashboard terhubung data asli | **SELESAI PENUH** | Semua data dummy terhapus, termasuk fix query sceneCount (ambiguous column) |
 | T3.4 | TTS/voiceover (baru) | Belum mulai | UTAMA: HF Space NihalGazi/Text-To-Speech-Unlimited via @gradio/client (HF_TOKEN). FALLBACK: Pollinations TTS (POLLINATIONS_API_KEY). Trigger: voiceMode ≠ 'none'. Simpan ke assets (type: 'audio') |
-| — | 5 halaman placeholder ke app/(admin)/ | **SELESAI** | Sidebar konsisten di semua 7 menu, terverifikasi user di production Vercel |
+| agent-a | 4 halaman real: Calendar, Assets, Director, Settings | **SELESAI** | Calendar (list jadwal + set tanggal), Assets (gambar/audio/musik per tipe), Director (semua production lintas project), Settings (status API key + versi). Schema: scheduledPublishAt di productions. Actions: calendar, library, listAllProductions. |
 | — | loading.tsx untuk navigasi instan | **SELESAI** | Highlight sidebar sekarang instan saat klik menu berdata (Dashboard/Projects), terverifikasi langsung oleh user di production |
 
 ## Belum diputuskan / masih menggantung

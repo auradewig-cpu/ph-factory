@@ -84,6 +84,7 @@ export const productions = pgTable('productions', {
   hasCharacter: boolean('has_character').notNull().default(false),
   voiceMode: voiceModeEnum('voice_mode').notNull().default('none'),
   status: productionStatusEnum('status').notNull().default('draft'),
+  scheduledPublishAt: timestamp('scheduled_publish_at', { withTimezone: true }),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 });
 
