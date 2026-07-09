@@ -15,7 +15,6 @@ async function getStorageUsage(): Promise<string> {
       return (bytes / 1024 / 1024 / 1024).toFixed(2) + ' GB';
     }
   } catch {
-    // Cloudinary API gagal — tidak perlu crash halaman
   }
   return '—';
 }
@@ -78,7 +77,6 @@ export default async function DashboardPage() {
       </div>
 
       <div className="px-7 py-6 flex flex-col gap-7">
-        {/* Stats */}
         <div className="flex gap-3">
           <StatCard label="Total Projects" value={String(totalProjects).padStart(2, '0')} />
           <StatCard label="Total Productions" value={String(totalProductions).padStart(2, '0')} />
@@ -86,7 +84,6 @@ export default async function DashboardPage() {
           <StatCard label="Storage Terpakai" value={storageUsed} />
         </div>
 
-        {/* Projects */}
         <div>
           <div className="flex items-center justify-between mb-3.5">
             <h2 className="font-display text-[16px] font-bold tracking-[0.12em] text-ph-muted">PROJECTS</h2>
@@ -122,7 +119,6 @@ export default async function DashboardPage() {
           )}
         </div>
 
-        {/* Research placeholder */}
         <div className="bg-ph-surface border border-ph-border rounded-lg p-5">
           <h2 className="font-display text-[16px] font-bold tracking-[0.12em] text-ph-muted mb-3">RECENT RESEARCH REPORTS</h2>
           <div className="flex flex-col items-center justify-center py-8 border border-dashed border-ph-border rounded-lg text-center">

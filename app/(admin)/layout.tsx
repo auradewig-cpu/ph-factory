@@ -14,7 +14,7 @@ const NAV_MAP: Record<string, string> = {
   '/settings': 'settings',
 };
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
