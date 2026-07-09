@@ -1,30 +1,32 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
+import { Eye, EyeOff } from 'lucide-react';
 import { AspectRatioChip } from './AspectRatioChip';
 
-interface Props {
-  onLogin: () => void;
-}
-
-export function LoginPage({ onLogin }: Props) {
+export function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-    setTimeout(() => {
-      if (email === 'admin@ph.com' && password === 'ph123') {
-        onLogin();
-      } else {
-        setError('Credential tidak valid. Gunakan demo credentials di bawah.');
-        setLoading(false);
-      }
-    }, 700);
+
+    const result = await signIn('credentials', { email, password, redirect: false });
+    if (result?.error) {
+      setError('Credential tidak valid.');
+      setLoading(false);
+    } else {
+      router.push('/dashboard');
+      router.refresh();
+    }
   };
 
   return (
@@ -83,14 +85,24 @@ export function LoginPage({ onLogin }: Props) {
 
             <div className="flex flex-col gap-1.5">
               <label className="font-sans text-[11px] font-medium text-ph-muted tracking-[0.1em]">PASSWORD</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                required
-                className="bg-ph-bg border border-ph-border rounded-[4px] px-3 py-[10px] text-ph-text font-sans text-sm outline-none w-full box-border transition-[border-color,outline] duration-150 focus:border-ph-amber focus:outline-2 focus:outline-ph-amber focus:outline-offset-1"
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  required
+                  className="bg-ph-bg border border-ph-border rounded-[4px] px-3 py-[10px] text-ph-text font-sans text-sm outline-none w-full box-border pr-10 transition-[border-color,outline] duration-150 focus:border-ph-amber focus:outline-2 focus:outline-ph-amber focus:outline-offset-1"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((s) => !s)}
+                  tabIndex={-1}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-ph-muted hover:text-ph-text transition-colors"
+                >
+                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              </div>
             </div>
 
             {error && (
@@ -109,13 +121,11 @@ export function LoginPage({ onLogin }: Props) {
             </button>
           </form>
 
-          {/* Demo credentials */}
+          {/* Credential hint */}
           <div className="mt-5 px-3 py-[10px] bg-ph-bg border border-ph-border rounded-[4px]">
-            <div className="font-mono text-[9px] text-ph-muted tracking-[0.15em] mb-[5px]">DEMO CREDENTIALS</div>
+            <div className="font-mono text-[9px] text-ph-muted tracking-[0.15em] mb-[5px]">ADMIN ACCESS ONLY</div>
             <div className="font-mono text-xs text-ph-text">
-              admin@ph.com
-              <span className="text-ph-border mx-[6px]">/</span>
-              ph123
+              Gunakan credential yang sudah ditentukan oleh admin.
             </div>
           </div>
         </div>
