@@ -1,8 +1,7 @@
 'use server';
 
-import { generateObject } from 'ai';
-import { geminiModel } from '@/lib/ai/client';
 import { generateScenesResponseSchema } from '@/lib/validation/scene';
+import { generateObjectWithFallback } from '@/lib/ai/fallback';
 import { compileMasterPrompt } from '@/lib/prompt-engine/masterPrompt';
 import { revalidatePath } from 'next/cache';
 import { db } from '@/lib/db/client';
@@ -66,8 +65,7 @@ export async function generateScenes(productionId: number, sceneCount: number) {
     language: proj.language as 'id' | 'en',
   });
 
-  const { object } = await generateObject({
-    model: geminiModel,
+  const { object } = await generateObjectWithFallback({
     schema: generateScenesResponseSchema,
     prompt: masterPrompt,
   });

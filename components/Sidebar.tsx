@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import { LayoutDashboard, FolderOpen, FlaskConical, Film, Calendar, Music, Settings, LogOut, ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { ApiStatusWidget } from './ApiStatusWidget';
 
 const MENU_ITEMS = [
   { icon: LayoutDashboard, label: 'Dashboard', id: 'dashboard' },
@@ -71,6 +72,9 @@ export function Sidebar({ activeItem, onNavigate, collapsed, onToggleCollapse }:
           );
         })}
       </nav>
+
+      {/* API Status */}
+      <ApiStatusWidget collapsed={collapsed} />
 
       {/* Logout */}
       <div className="border-t border-ph-border">
