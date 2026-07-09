@@ -8,6 +8,7 @@ import { listScenesByProduction } from '@/lib/actions/scene';
 import { GenerateScenesForm, CopyButton, VoiceoverButton } from '@/components/SceneClient';
 import { MusicPicker } from '@/components/MusicPicker';
 import { ChainFrameUpload } from '@/components/ChainFrameUpload';
+import { ResizablePanel } from '@/components/ResizablePanel';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -94,7 +95,9 @@ export default async function ProductionDetailPage({ params }: Props) {
         <h1 className="font-display text-[28px] font-bold tracking-[0.1em] text-ph-text leading-none">{prod.presetName}</h1>
       </div>
 
-      <div className="px-7 py-6 flex flex-col gap-6 max-w-4xl">
+      <div className="px-7 py-6">
+        <ResizablePanel storageKey="production-detail" defaultWidth={896} minWidth={600}>
+          <div className="flex flex-col gap-6">
         {/* Info + Generate */}
         <div className="bg-ph-surface border border-ph-border rounded-lg p-5 flex items-start justify-between">
           <div className="flex flex-col gap-1">
@@ -194,6 +197,8 @@ export default async function ProductionDetailPage({ params }: Props) {
             </div>
           </div>
         )}
+          </div>
+        </ResizablePanel>
       </div>
     </div>
   );
