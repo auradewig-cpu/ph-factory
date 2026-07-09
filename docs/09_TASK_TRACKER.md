@@ -22,7 +22,6 @@ Update REAL-TIME selama kerja — beda dari 03_TASKS.md (breakdown awal, statis)
 | T3.4 | TTS/voiceover (baru) | Belum mulai | UTAMA: HF Space NihalGazi/Text-To-Speech-Unlimited via @gradio/client (HF_TOKEN). FALLBACK: Pollinations TTS (POLLINATIONS_API_KEY). Trigger: voiceMode ≠ 'none'. Simpan ke assets (type: 'audio') |
 
 ## Belum diputuskan / masih menggantung
-- [ ] 5 halaman placeholder (Research Engine, Director Studio, Content Calendar, Asset & Music Library, Settings) masih di luar app/(admin)/ — sidebar tidak muncul di situ. Perlu diputuskan: ikut dipindah sekarang, atau ditunda sampai halamannya benar-benar dikerjakan
 - [ ] Prioritas fitur TTS voiceover (T3.4)
 - [ ] Groq/OpenRouter fallback belum diimplementasi (T0.5)
 
