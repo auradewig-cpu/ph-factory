@@ -13,18 +13,6 @@ const MENU_ITEMS = [
   { icon: Settings, label: 'Settings', id: 'settings' },
 ];
 
-const API_SERVICES = [
-  { name: 'Gemini', used: 847, limit: 1000, status: 'green' as const },
-  { name: 'Groq', used: 1240, limit: 5000, status: 'green' as const },
-  { name: 'OpenRouter', used: 78, limit: 100, status: 'yellow' as const },
-];
-
-const STATUS_COLOR = { green: '#2FA6A0', yellow: '#F2A93B', red: '#D45B4E' };
-
-function fmt(n: number) {
-  return n >= 1000 ? (n / 1000).toFixed(1) + 'k' : String(n);
-}
-
 interface Props {
   activeItem: string;
   onNavigate: (id: string) => void;
@@ -75,27 +63,8 @@ export function Sidebar({ activeItem, onNavigate, collapsed, onToggleCollapse }:
         })}
       </nav>
 
-      {/* API Usage Widget */}
-      {!collapsed ? (
-        <div className="mx-2 mb-2.5 px-3 py-[10px] bg-ph-bg border border-ph-border rounded-[4px]">
-          <div className="font-mono text-[9px] text-ph-muted tracking-[0.14em] mb-2.5">API USAGE</div>
-          {API_SERVICES.map((svc) => (
-            <div key={svc.name} className="flex items-center justify-between mb-1.5 last:mb-0">
-              <div className="flex items-center gap-1.5">
-                <div className="w-[6px] h-[6px] rounded-full flex-shrink-0" style={{ background: STATUS_COLOR[svc.status], boxShadow: `0 0 4px ${STATUS_COLOR[svc.status]}80` }} />
-                <span className="font-mono text-[10px] text-ph-muted">{svc.name}</span>
-              </div>
-              <span className="font-mono text-[10px] text-ph-text">{fmt(svc.used)}/{fmt(svc.limit)}</span>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="flex flex-col items-center gap-[5px] pb-3">
-          {API_SERVICES.map((svc) => (
-            <div key={svc.name} title={`${svc.name}: ${svc.used}/${svc.limit}`} className="w-[6px] h-[6px] rounded-full" style={{ background: STATUS_COLOR[svc.status] }} />
-          ))}
-        </div>
-      )}
+      {/* Bottom spacer — no API Usage widget */}
+      {collapsed && <div className="pb-3" />}
     </div>
   );
 }
