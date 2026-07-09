@@ -51,9 +51,9 @@ export default async function DashboardPage() {
       targetPlatforms: projects.targetPlatforms,
       createdAt: projects.createdAt,
       sceneCount: sql<number>`coalesce((
-        select count(*)::int from ${scenes}
-        inner join ${productions} on ${productions.id} = ${scenes.productionId}
-        where ${productions.projectId} = ${projects.id}
+        select count(*)::int from "scenes"
+        inner join "productions" on "productions"."id" = "scenes"."production_id"
+        where "productions"."project_id" = "projects"."id"
       ), 0)`,
     })
     .from(projects)
