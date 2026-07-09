@@ -19,10 +19,15 @@ export function compileMasterPrompt(params: {
   }
 
   let voiceBlock: string;
+  const audioTagsInstruction = `\nAudio tag (sisipkan ke scriptNarration maksimal 1-2 tag per scene, hanya kalau konteks kalimat mendukung, jangan dipaksakan):
+  [laughs] — tertawa, [sighs] — menghela napas, [excited] — bersemangat, [whispers] — berbisik, [gasps] — terkejut/kaget.
+  Contoh: "Ini lucu sekali! [laughs] Tapi jujur, kadang aku juga sedih. [sighs]"
+  Gunakan [excited]/[gasps] untuk hook/cta energi tinggi. Gunakan [sighs]/[laughs] untuk body naratif/personal.`;
+
   if (params.voiceMode === 'voiceover_only') {
-    voiceBlock = 'Tidak ada karakter yang tampil di kamera. Semua narasi adalah voiceover. scriptNarration adalah naskah voiceover.';
+    voiceBlock = 'Tidak ada karakter yang tampil di kamera. Semua narasi adalah voiceover. scriptNarration adalah naskah voiceover.' + audioTagsInstruction;
   } else if (params.voiceMode === 'on_camera_dialogue') {
-    voiceBlock = 'Karakter berbicara langsung di depan kamera. scriptNarration adalah dialog yang diucapkan karakter.';
+    voiceBlock = 'Karakter berbicara langsung di depan kamera. scriptNarration adalah dialog yang diucapkan karakter.' + audioTagsInstruction;
   } else {
     voiceBlock = 'Tidak ada suara/narasi. scriptNarration boleh null. Konten mengandalkan teks on-screen dan visual saja.';
   }

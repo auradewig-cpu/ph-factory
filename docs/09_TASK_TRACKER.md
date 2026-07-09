@@ -20,6 +20,7 @@ Update REAL-TIME selama kerja — beda dari 03_TASKS.md (breakdown awal, statis)
 | T2.1 | Director Engine v1 (generate scene via Gemini) | **SELESAI PENUH** | Uji beban 20 scene di Vercel: ~15-20 detik, jauh di bawah maxDuration=60. Job-queue tidak diperlukan |
 | — | Dashboard terhubung data asli | **SELESAI PENUH** | Semua data dummy terhapus, termasuk fix query sceneCount (ambiguous column) |
 | T3.4 | TTS/voiceover (baru) | **SELESAI** | HF Space NihalGazi/Text-To-Speech-Unlimited + POLLINATIONS_API_KEY sbg api_key_input (premium tier). Limit truncation dinaikkan dari 195 → 950. Terverifikasi langsung via script: API menerima hingga ≥10.000 karakter tanpa error. Scene #1 (289 chars) terkirim utuh, audio ~11,3 detik. Safety net 950 cukup untuk semua scene realistic. |
+| T3.5 | Audio tags di masterPrompt | **SELESAI** | 5 tag ([laughs],[sighs],[excited],[whispers],[gasps]) terverifikasi berfungsi di HF Space TTS. Diintegrasikan ke compileMasterPrompt() (hanya untuk voiceMode selain 'none'). Gemini akan menyisipkan tag secara wajar (1-2 per scene, tidak dipaksakan). |
 | — | 5 halaman placeholder ke app/(admin)/ | **SELESAI** | Sidebar konsisten di semua 7 menu, terverifikasi user di production Vercel |
 | — | loading.tsx untuk navigasi instan | **SELESAI** | 4 file loading.tsx skeleton (dashboard + projects 3 level), TS compile zero error, terverifikasi di localhost |
 
