@@ -52,7 +52,8 @@ export async function searchFreesoundSounds(query: string): Promise<SafeTrack[]>
   url.searchParams.set('token', apiKey);
   url.searchParams.set('query', query);
   url.searchParams.set('fields', 'id,name,license,previews,download,duration');
-  url.searchParams.set('page_size', '20');
+  url.searchParams.set('page_size', '50');
+  url.searchParams.set('sort', 'rating_desc');
 
   const res = await fetch(url.toString());
   if (!res.ok) {

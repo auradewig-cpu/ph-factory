@@ -47,9 +47,10 @@ export async function searchJamendoTracks(query: string): Promise<SafeTrack[]> {
   const url = new URL(`${JAMENDO_BASE}/tracks/`);
   url.searchParams.set('client_id', clientId);
   url.searchParams.set('format', 'json');
-  url.searchParams.set('limit', '20');
+  url.searchParams.set('limit', '50');
   url.searchParams.set('search', query);
   url.searchParams.set('include', 'musicinfo+licenses');
+  url.searchParams.set('order', 'popularity_total');
 
   const res = await fetch(url.toString());
   if (!res.ok) {
