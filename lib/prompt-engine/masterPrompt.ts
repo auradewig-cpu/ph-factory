@@ -45,7 +45,16 @@ Untuk setiap scene, tentukan:
 - sceneType: hook (pembuka, grab attention), body (isi konten), cta (ajakan bertindak/penutup)
 - cameraTechnique: sesuai konteks visual scene. ${cameraGuidelines}
 - continuityType: hubungan transisi antar scene. Scene yang melanjutkan momen yang sama → 'continuous'. Ganti sudut kamera di momen yang masih terkait → 'match_cut'. Lompat ke adegan/waktu/lokasi baru → 'hard_cut'.
-- imagePrompt: prompt detail untuk generate GAMBAR diam scene ini (deskripsi visual frame, komposisi, pencahayaan, warna).
+- imagePrompt: prompt detail untuk generate GAMBAR DIAM, WAJIB sertakan KOMBINASI elemen fotografi/sinematografi berikut dalam satu deskripsi mengalir (bukan daftar terpisah):
+    1. Shot size (extreme wide/wide/full/medium/medium close-up/close-up/extreme close-up)
+    2. Camera angle (eye level/low angle/high angle/bird eye/dutch angle) — pilih sesuai mood scene
+    3. Lens (sebutkan mm — 24mm untuk wide/landscape, 35-50mm natural, 85mm portrait dengan background blur, 135mm+ compression)
+    4. Composition (rule of thirds/center composition/leading lines/negative space/symmetrical/frame within frame) — pilih yang sesuai konteks scene
+    5. Depth of field (shallow dengan background blur / deep focus semua tajam)
+    6. Lighting & mood (golden hour, soft backlight, dramatic shadow, natural light, dll — SESUAI konteks niche dan sceneType)
+    7. Warna dominan/palette yang sesuai mood
+    JANGAN sertakan istilah gerakan kamera (dolly/pan/tracking/dst) di sini — imagePrompt untuk GAMBAR DIAM, bukan video.
+    Contoh kualitas yang diharapkan: "Medium close-up, eye-level angle, 85mm lens with shallow depth of field, rule of thirds composition with subject in left third, warm golden-hour backlighting, soft amber and cream color palette" — BUKAN sekadar "foto karakter tersenyum".
 - videoPrompt: prompt detail untuk generate VIDEO, WAJIB sertakan KOMBINASI elemen sinematografi berikut dalam satu deskripsi mengalir (bukan daftar terpisah, gabungkan jadi kalimat profesional):
     1. Shot size (extreme wide/wide/full/medium/medium close-up/close-up/extreme close-up)
     2. Camera angle (eye level/low angle/high angle/bird eye/dutch angle) — pilih sesuai mood scene
