@@ -18,4 +18,10 @@ Update di akhir tiap sesi kerja. Format: tanggal, siapa (Claude Web / opencode-D
 **Selesai:** Struktur `app/` (9 route: login, dashboard, 7 placeholder), `components/` (6 custom + 8 shadcn/ui), `styles/globals.css`, `lib/utils.ts`. Build production sukses.
 **Pending:** Login & dashboard masih shell visual, belum ada logic/koneksi backend. Perlu cek isi `guidelines/` dan `ATTRIBUTIONS.md` (kemungkinan sisa metadata Figma, pindahkan ke `docs/` atau hapus). Lanjut ke setup schema database (Drizzle + Neon).
 
+## Sesi 3 — 10 Juli 2026
+**Oleh:** opencode-DeepSeek
+**Dikerjakan:** Perkaya instruksi videoPrompt di masterPrompt.ts dengan bahasa sinematografi Director of Photography — instruksi lama cuma bilang "gerakan kamera, durasi action, transisi", diganti dengan kombinasi 6 elemen sinematografi (shot size, angle, movement spesifik, lens mm, focus technique, lighting & mood) dalam satu kalimat mengalir, plus aturan tambahan variasi shot size/lens antar scene.
+**Selesai:** masterPrompt.ts diupdate, terverifikasi via test generate 6 scene langsung ke Gemini — semua scene menyertakan shot size + lens mm + focus + lighting, 5/6 sertakan angle eksplisit. Commit + push ke main.
+**Pending:** Tidak ada untuk task ini.
+
 <!-- Tambahkan sesi baru di bawah ini, urutan kronologis menaik -->
