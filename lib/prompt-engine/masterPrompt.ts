@@ -46,7 +46,14 @@ Untuk setiap scene, tentukan:
 - cameraTechnique: sesuai konteks visual scene. ${cameraGuidelines}
 - continuityType: hubungan transisi antar scene. Scene yang melanjutkan momen yang sama → 'continuous'. Ganti sudut kamera di momen yang masih terkait → 'match_cut'. Lompat ke adegan/waktu/lokasi baru → 'hard_cut'.
 - imagePrompt: prompt detail untuk generate GAMBAR diam scene ini (deskripsi visual frame, komposisi, pencahayaan, warna).
-- videoPrompt: prompt detail untuk generate VIDEO dari scene ini (gerakan kamera, durasi action, transisi).
+- videoPrompt: prompt detail untuk generate VIDEO, WAJIB sertakan KOMBINASI elemen sinematografi berikut dalam satu deskripsi mengalir (bukan daftar terpisah, gabungkan jadi kalimat profesional):
+    1. Shot size (extreme wide/wide/full/medium/medium close-up/close-up/extreme close-up)
+    2. Camera angle (eye level/low angle/high angle/bird eye/dutch angle) — pilih sesuai mood scene
+    3. Camera movement spesifik (dolly in/out, pan, tilt, tracking, handheld, static, orbit, crane, push in, pull out) — SESUAI cameraTechnique yang sudah ditentukan
+    4. Lens (sebutkan mm — 24mm untuk wide/landscape, 35-50mm untuk natural, 85mm untuk portrait dengan background blur, 135mm+ untuk compression/aksi)
+    5. Focus technique kalau relevan (shallow depth of field, rack focus, deep focus)
+    6. Lighting & mood (golden hour, soft backlight, dramatic shadow, natural light, dll — SESUAI konteks niche dan sceneType)
+    Contoh kualitas yang diharapkan: "Slow cinematic dolly-in, medium close-up, 85mm lens, shallow depth of field, warm golden-hour lighting, subtle handheld breathing motion, emotional atmosphere" — BUKAN sekadar "kamera mendekat ke wajah karakter".
 - scriptNarration: naskah narasi/dialog untuk scene ini${params.voiceMode === 'none' ? ' (null kalau tidak ada suara)' : ''}.
 - durationSeconds: durasi scene dalam detik (5-120).
 - maxWords: jumlah maksimum kata untuk narasi scene ini.
@@ -57,5 +64,6 @@ Aturan tambahan:
 - sceneNumber harus urut dari 1 sampai ${params.sceneCount}.
 - ${langInstruction}
 - imagePrompt dan videoPrompt harus panjang dan deskriptif (minimal 50 karakter), bukan kalimat pendek.
-- cameraTechnique scene pertama sebaiknya yang establishing/wide untuk mengenalkan setting.`;
+- cameraTechnique scene pertama sebaiknya yang establishing/wide untuk mengenalkan setting.
+  - Variasikan shot size dan lens antar scene — jangan pakai kombinasi yang sama persis di 2+ scene berturut-turut, supaya ritme visual terasa dinamis seperti editing film sungguhan.`;
 }
